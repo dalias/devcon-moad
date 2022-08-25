@@ -1,0 +1,163 @@
+import wixData from 'wix-data';
+import wixCrmBackend from 'wix-crm-backend';
+
+const avatarBlockCollection = '@karenatwix/avatargenerator/FinalAvatars'
+const ecommBlockCollection = '@dali254/avatars-catalog/avatars_catalog'
+
+const avatarEmailID = 'TF91blZ'
+const bookingEmailID = 'TFIEtH3'
+const couponEmailID = 'TFOQJW1'
+
+export async function sendBookingEmail(avatarId, time, speaker, calendarLink) {
+    let purchaseForm = await wixData.query(ecommBlockCollection).eq('imageId', avatarId).find()
+    let purchase = purchaseForm.items[0]
+    let emailToFind = purchase.email
+
+    let contactId;
+    const queryResults = await wixCrmBackend.contacts.queryContacts()
+        .eq('info.emails.email', emailToFind)
+        .find();
+    const contactsWithEmail = queryResults.items;
+    if (contactsWithEmail.length === 1) {
+
+        contactId = contactsWithEmail[0]._id;
+        console.log('Found 1 contact', contactId);
+
+    } else {
+        contactId = contactsWithEmail[1]._id
+        console.log('Found more than 1 contact', contactId);
+    }
+
+    return wixCrmBackend.triggeredEmails.emailContact('TFIEtH3', contactId, {
+            variables: {
+                start_date: time,
+                online_conference_url: calendarLink,
+                staff_member_name: speaker
+            }
+        })
+        .then(() => {
+            console.log('Email was sent to contact');
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
+// let avatarId = "18a1d03e-abd5-4adb-a34a-554fa9545eaf"
+
+export async function sendPurchaseEmail(avatarId) {
+    let purchaseForm = await wixData.query(ecommBlockCollection).eq('imageId', avatarId).find()
+    let purchase = purchaseForm.items[0]
+    let emailToFind = purchase.email,
+        name = purchase.name,
+        phone = purchase.phone
+
+    let avatarResults = await wixData.query(avatarBlockCollection).eq('_id', avatarId).find()
+    let avatatItem = avatarResults.items[0]
+    let downloadLink = avatatItem.downloadUrl
+
+    let contactId;
+    const queryResults = await wixCrmBackend.contacts.queryContacts()
+        .eq('info.emails.email', emailToFind)
+        .find();
+    const contactsWithEmail = queryResults.items;
+
+    if (contactsWithEmail.length === 1) {
+
+        contactId = contactsWithEmail[0]._id;
+        console.log('Found 1 contact', contactId);
+
+    } else if (contactsWithEmail.length > 1) {
+
+        contactId = contactsWithEmail[1]._id
+        console.log('Found more than 1 contact', contactId);
+
+    } else {
+
+        console.log('No contacts found, added to contacts', contactId);
+        let newContact = await createContact(name, emailToFind, phone)
+        contactId = newContact
+        // Handle when no contacts are found, add to contacts and send email
+
+    }
+
+    return await wixCrmBackend.triggeredEmails.emailContact('TF91blZ', contactId, {
+            variables: {
+                downloadLink: downloadLink
+            }
+        })
+        .then(() => {
+
+            console.log('Email sent to contact');
+        })
+
+        .catch((error) => {
+            console.error(error);
+            // Handle the error
+        })
+}
+
+export function myGetContactById(contactId) {
+    return wixCrmBackend.getContactById(contactId);
+}
+
+async function createContact(name, email, phone) {
+    return wixCrmBackend.createContact({
+            "firstName": name,
+            "emails": email,
+            "phones": phone
+        })
+        .then((result) => {
+            const contactId = result;
+            return contactId;
+        });
+}
+
+export async function sendCouponEmail(avatarId, prizeText) {
+    let purchaseForm = await wixData.query(ecommBlockCollection).eq('imageId', avatarId).find()
+    let purchase = purchaseForm.items[0]
+    let emailToFind = purchase.email,
+        name = purchase.name,
+        phone = purchase.phone
+
+
+    let contactId;
+    const queryResults = await wixCrmBackend.contacts.queryContacts()
+        .eq('info.emails.email', emailToFind)
+        .find();
+    const contactsWithEmail = queryResults.items;
+
+    if (contactsWithEmail.length === 1) {
+
+        contactId = contactsWithEmail[0]._id;
+        console.log('Found 1 contact', contactId);
+
+    } else if (contactsWithEmail.length > 1) {
+
+        contactId = contactsWithEmail[1]._id
+        console.log('Found more than 1 contact', contactId);
+
+    } else {
+
+        console.log('No contacts found, added to contacts', contactId);
+        let newContact = await createContact(name, emailToFind, phone)
+        contactId = newContact
+        // Handle when no contacts are found, add to contacts and send email
+
+    }
+
+    return await wixCrmBackend.triggeredEmails.emailContact('TFOQJW1', contactId, {
+            variables: {
+                prize: prizeText
+            }
+        })
+        .then(() => {
+
+            console.log('Email sent to contact');
+        })
+
+        .catch((error) => {
+            console.error(error);
+            // Handle the error
+        })
+}

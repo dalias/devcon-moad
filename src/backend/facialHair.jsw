@@ -1,0 +1,139 @@
+import _ from 'lodash'
+const hairColors = [ '#002BC4', '#131313', '#4CB074','#693729','#FF7D27','#FFDC35']
+
+const fh0 = (hairColor) => {
+    return ``
+}
+const fh1 = (hairColor) => {
+    return `<path d="M61.1902 39.4898L54.8002 48.4998C53.7802 49.9298 51.8102 50.1598 50.4002 49.1198C48.7602 47.9098 46.6102 47.2198 44.2802 47.3198C41.7302 47.4298 39.4802 48.4798 37.9202 50.0598C36.7202 51.2798 34.7702 51.3098 33.5602 50.0898L31.1602 47.6698C31.2302 48.5598 31.6002 50.0898 31.7702 50.6898C32.0802 51.7898 32.4802 52.8698 32.9902 53.8998C33.9002 55.7598 35.1202 57.4798 36.6402 58.8998C47.0202 68.5698 60.0402 57.7198 62.2002 46.4798C62.8902 42.8398 63.3202 39.2498 63.4202 36.3398L61.1902 39.4898Z" fill="${hairColor}"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M41.3536 50.6465C42.8683 52.1612 45.3317 52.1612 46.8465 50.6465L47.5536 51.3536C45.6483 53.2589 42.5517 53.2589 40.6465 51.3536L41.3536 50.6465Z" fill="#DFB794"/>`
+}
+
+const fh2 = (hairColor) => {
+    return `<path d="M61.1902 39.4901L54.8002 48.5001C53.7802 49.9301 51.8102 50.1601 50.4002 49.1201C48.7602 47.9101 46.6102 47.2201 44.2802 47.3201C41.7302 47.4301 39.4802 48.4801 37.9202 50.0601C36.7202 51.2801 34.7702 51.3101 33.5602 50.0901L31.1602 47.6701C31.1602 47.6701 31.6202 71.2201 47.7602 70.2801C62.7602 69.4101 63.4202 36.3301 63.4202 36.3301L61.1902 39.4901Z" fill="${hairColor}"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M41.3536 50.6465C42.8683 52.1612 45.3317 52.1612 46.8465 50.6465L47.5536 51.3536C45.6483 53.2589 42.5517 53.2589 40.6465 51.3536L41.3536 50.6465Z" fill="#DFB794"/>
+`
+}
+const fh3 = (hairColor) => {
+    return `<path d="M43.4307 60.3501H42.4307V63.2201H43.4307V60.3501Z" fill="${hairColor}"/>
+<path d="M41.2002 59.46H40.2002V62.33H41.2002V59.46Z" fill="${hairColor}"/>
+<path d="M45.6699 60.5298H44.6699V63.3998H45.6699V60.5298Z" fill="${hairColor}"/>
+<path d="M47.9004 60.3501H46.9004V63.2201H47.9004V60.3501Z" fill="${hairColor}"/>`
+}
+
+const fh4 = (hairColor) => {
+    return `<path d="M39.6602 49.0396H38.6602V50.4795H39.6602V49.0396Z" fill="${hairColor}"/>
+<path d="M41.6504 48.5098H40.6504V49.9498H41.6504V48.5098Z" fill="${hairColor}"/>
+<path d="M43.6299 48.5298H42.6299V49.9698H43.6299V48.5298Z" fill="${hairColor}"/>
+<path d="M45.6201 48.5098H44.6201V49.9498H45.6201V48.5098Z" fill="${hairColor}"/>
+<path d="M47.6006 48.5298H46.6006V49.9698H47.6006V48.5298Z" fill="${hairColor}"/>
+<path d="M49.5898 48.8096H48.5898V50.2496H49.5898V48.8096Z" fill="${hairColor}"/>`
+}
+
+const fh5 = (hairColor) => {
+    return `<path d="M39.6602 49.04H38.6602V50.48H39.6602V49.04Z" fill="${hairColor}"/>
+<path d="M39.29 51.6802H38.29V53.1202H39.29V51.6802Z" fill="${hairColor}"/>
+<path d="M38.9199 54.3203H37.9199V55.7603H38.9199V54.3203Z" fill="${hairColor}"/>
+<path d="M41.2002 54.8901H40.2002V56.3301H41.2002V54.8901Z" fill="${hairColor}"/>
+<path d="M43.1494 55.2803H42.1494V56.7203H43.1494V55.2803Z" fill="${hairColor}"/>
+<path d="M38.9199 56.5703H37.9199V58.0103H38.9199V56.5703Z" fill="${hairColor}"/>
+<path d="M37.1895 55.7603H36.1895V57.2003H37.1895V55.7603Z" fill="${hairColor}"/>
+<path d="M37.3594 53.3101H36.3594V54.7501H37.3594V53.3101Z" fill="${hairColor}"/>
+<path d="M35.2998 54.7402H34.2998V56.1802H35.2998V54.7402Z" fill="${hairColor}"/>
+<path d="M33.5498 53.4004H32.5498V54.8404H33.5498V53.4004Z" fill="${hairColor}"/>
+<path d="M40.5 57.4302H39.5V58.8702H40.5V57.4302Z" fill="${hairColor}"/>
+<path d="M39.0996 59.1504H38.0996V60.5904H39.0996V59.1504Z" fill="${hairColor}"/>
+<path d="M36.8896 58.1504H35.8896V59.5904H36.8896V58.1504Z" fill="${hairColor}"/>
+<path d="M42.29 57.1904H41.29V58.6304H42.29V57.1904Z" fill="${hairColor}"/>
+<path d="M44.4697 60.9004H43.4697V62.3404H44.4697V60.9004Z" fill="${hairColor}"/>
+<path d="M42.6699 61.02H41.6699V62.46H42.6699V61.02Z" fill="${hairColor}"/>
+<path d="M40.9697 60.04H39.9697V61.48H40.9697V60.04Z" fill="${hairColor}"/>
+<path d="M45.0596 57.9004H44.0596V59.3404H45.0596V57.9004Z" fill="${hairColor}"/>
+<path d="M43.4697 58.9702H42.4697V60.4102H43.4697V58.9702Z" fill="${hairColor}"/>
+<path d="M47.0596 57.9004H46.0596V59.3404H47.0596V57.9004Z" fill="${hairColor}"/>
+<path d="M46.4199 60.7603H45.4199V62.2003H46.4199V60.7603Z" fill="${hairColor}"/>
+<path d="M48.8701 57.7202H47.8701V59.1602H48.8701V57.7202Z" fill="${hairColor}"/>
+<path d="M48.3096 60.3003H47.3096V61.7403H48.3096V60.3003Z" fill="${hairColor}"/>
+<path d="M41.6494 48.5103H40.6494V49.9503H41.6494V48.5103Z" fill="${hairColor}"/>
+<path d="M43.6299 48.5303H42.6299V49.9703H43.6299V48.5303Z" fill="${hairColor}"/>
+<path d="M45.6201 48.5103H44.6201V49.9503H45.6201V48.5103Z" fill="${hairColor}"/>
+<path d="M47.5996 48.5303H46.5996V49.9703H47.5996V48.5303Z" fill="${hairColor}"/>
+<path d="M49.5898 48.8101H48.5898V50.2501H49.5898V48.8101Z" fill="${hairColor}"/>
+<path d="M50.5 51.6802H49.5V53.1202H50.5V51.6802Z" fill="${hairColor}"/>
+<path d="M51.4102 54.5601H50.4102V56.0001H51.4102V54.5601Z" fill="${hairColor}"/>
+<path d="M49.46 55.0703H48.46V56.5103H49.46V55.0703Z" fill="${hairColor}"/>
+<path d="M47.2197 55.6104H46.2197V57.0504H47.2197V55.6104Z" fill="${hairColor}"/>
+<path d="M45.3799 55.2803H44.3799V56.7203H45.3799V55.2803Z" fill="${hairColor}"/>
+<path d="M52.7803 56.8203H51.7803V58.2603H52.7803V56.8203Z" fill="${hairColor}"/>
+<path d="M50.7803 57.6802H49.7803V59.1202H50.7803V57.6802Z" fill="${hairColor}"/>
+<path d="M50.21 60.1802H49.21V61.6202H50.21V60.1802Z" fill="${hairColor}"/>
+<path d="M52.6699 59.46H51.6699V60.9H52.6699V59.46Z" fill="${hairColor}"/>
+<path d="M54.5303 57.54H53.5303V58.98H54.5303V57.54Z" fill="${hairColor}"/>
+<path d="M56.5098 57.1904H55.5098V58.6304H56.5098V57.1904Z" fill="${hairColor}"/>
+<path d="M58.5098 55.7803H57.5098V57.2203H58.5098V55.7803Z" fill="${hairColor}"/>
+<path d="M61.0195 52.48H60.0195V53.92H61.0195V52.48Z" fill="${hairColor}"/>
+<path d="M53.5303 54.3203H52.5303V55.7603H53.5303V54.3203Z" fill="${hairColor}"/>
+<path d="M55.3398 52.4004H54.3398V53.8404H55.3398V52.4004Z" fill="${hairColor}"/>
+<path d="M59.8594 50.3203H58.8594V51.7603H59.8594V50.3203Z" fill="${hairColor}"/>
+<path d="M59.1602 48.0903H58.1602V49.5303H59.1602V48.0903Z" fill="${hairColor}"/>
+<path d="M61.7197 46.3901H60.7197V47.8301H61.7197V46.3901Z" fill="${hairColor}"/>
+<path d="M59.3799 45.4902H58.3799V46.9302H59.3799V45.4902Z" fill="${hairColor}"/>
+<path d="M60.7695 43.6401H59.7695V45.0801H60.7695V43.6401Z" fill="${hairColor}"/>
+<path d="M62.9697 43.6401H61.9697V45.0801H62.9697V43.6401Z" fill="${hairColor}"/>
+<path d="M61.4297 41.0703H60.4297V42.5103H61.4297V41.0703Z" fill="${hairColor}"/>
+<path d="M64.1094 36.6401H63.1094V38.0801H64.1094V36.6401Z" fill="${hairColor}"/>
+<path d="M62.0498 37.9302H61.0498V39.3702H62.0498V37.9302Z" fill="${hairColor}"/>
+<path d="M62.1797 35.2002H61.1797V36.6402H62.1797V35.2002Z" fill="${hairColor}"/>
+<path d="M63.29 40.3604H62.29V41.8004H63.29V40.3604Z" fill="${hairColor}"/>
+<path d="M57.7695 51.04H56.7695V52.48H57.7695V51.04Z" fill="${hairColor}"/>
+<path d="M61.4297 48.9702H60.4297V50.4102H61.4297V48.9702Z" fill="${hairColor}"/>
+<path d="M58.8496 53.1201H57.8496V54.5601H58.8496V53.1201Z" fill="${hairColor}"/>
+<path d="M55.1699 55.1602H54.1699V56.6002H55.1699V55.1602Z" fill="${hairColor}"/>
+<path d="M56.9297 53.9102H55.9297V55.3502H56.9297V53.9102Z" fill="${hairColor}"/>`
+}
+
+
+
+export const faceHairs = (styleIndex, colorIndex) => {
+    let color = hairColors[colorIndex]
+    let style0 = fh0(color)
+    let style1 = fh1(color)
+    let style2 = fh2(color)
+    let style3 = fh3(color)
+    let style4 = fh4(color)
+    let style5 = fh5(color)
+
+    let array = [style0, style1, style2, style3, style4, style5]
+    return {
+        svg: array[styleIndex],
+        color: color,
+        colorArr: hairColors,
+        styleArr: array,
+        curStyleIndex: styleIndex++ % array.length + array.length % array.length,
+        curColorIndex: colorIndex++ % hairColors.length + hairColors.length % hairColors.length
+    }
+   
+}
+
+export async function randomFH() {
+    let randomColor = _.sample(hairColors)
+
+    let style0 = fh0(randomColor)
+    let style1 = fh1(randomColor)
+    let style2 = fh2(randomColor)
+    let style3 = fh3(randomColor)
+    let style4 = fh4(randomColor)
+    let style5 = fh5(randomColor)
+
+    let array = [style0, style1, style2, style3, style4, style5]
+    let randomStyle = await _.sample(array)
+    const colorIndex = _.findIndex(hairColors, function (color) { return color == randomColor }) 
+    const styleIndex = _.findIndex(array, function (svg) { return svg == randomStyle }) 
+
+    return{
+        svg: randomStyle,
+        color: randomColor,
+        colorIndex: colorIndex,
+        styleIndex: styleIndex
+    }
+}

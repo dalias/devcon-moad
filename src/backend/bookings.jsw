@@ -1,0 +1,27 @@
+import wixData from 'wix-data';
+const storesCollection = '@dali254/avatars-catalog/avatars_catalog'
+
+export async function getCustomerInfo(checkoutInfo, chosenDrink) {
+    let customerInfo = await wixData.query(storesCollection).eq("_id", checkoutInfo).find()
+    console.log('Customer info:', customerInfo);
+    let customer = customerInfo.items[0]
+    // local.setItem('EMAIL', customer[0].email)
+    // TEST FORM CONFIRMATION
+    let formFieldValues = [{
+        "_id": "00000000-0000-0000-0000-000000000001", // name field ID
+        "value": customer.name
+    }, {
+        "_id": "00000000-0000-0000-0000-000000000002", // email field ID
+        "value": customer.email
+    }];
+    formFieldValues.push({
+        '_id': "c46bac19-f2af-4e9a-8b8f-8efdf006bdc0",
+        'value': chosenDrink,
+    })
+    return formFieldValues
+}
+
+export async function getContactId(bookingId) {
+    let bookedSession = await wixData.query('Bookings')
+}
+

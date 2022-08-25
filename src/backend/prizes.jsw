@@ -1,0 +1,42 @@
+const Prizes = '@karenatwix/prizewheel/Prizes'
+import _ from 'lodash'
+import wixData from 'wix-data';
+
+export async function shufflePrizes() {
+    // Query Prizes that have quantity left
+    let prizeArray = await wixData.query(Prizes)
+        .find()
+    let prizeItems = prizeArray.items
+    let availablePrizes = await _.map(prizeItems)
+    _.remove(availablePrizes, { quantity: 0 })
+
+    if (availablePrizes.length == 0) {
+        let text = "All prizes have been claimed"
+        return text.toString()
+    } else {
+
+        //  Chose random prize
+        let prize = await _.sample(availablePrizes)
+
+        // Update Prize in Collection
+        let toUpdate = {
+            '_id': prize._id,
+            'quantity': prize.quantity - 1,
+            'title': prize.title,
+            'couponCode': prize.couponCode,
+        }
+
+        updatePrize(toUpdate)
+
+        return prize
+
+    }
+
+}
+
+async function updatePrize(toUpdate) {
+    await wixData.update(Prizes, toUpdate)
+        .catch((err) => {
+            console.log(err);
+        });
+}

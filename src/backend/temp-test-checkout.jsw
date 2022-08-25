@@ -1,0 +1,106 @@
+import { checkout } from 'wix-ecom-backend';
+import { mediaManager } from 'wix-media-backend';
+
+function parseImageUrl(originalUrl) {
+	const afterV1 =  originalUrl.split('v1/')[1].split('/')
+	const id = afterV1[0]
+	const fileName = afterV1[1].split('#')[0]
+	const width = originalUrl.split('originWidth=')[1].split('&')[0]
+	const height = originalUrl.split('originHeight=')[1]
+	console.log(`found id: ${id} name: ${fileName}, width: ${width} height: ${height}`)
+    return {    
+                id,
+                width,
+                height, 
+                fileName
+            }
+}
+
+export async function testCheckout() {
+    console.log('createCheckout was called');
+    const email = 'daliasimons@gmail.com'
+    const image = 'wix:image://v1/0784b1_e85a9ce04e7a4790b6953d54e45750ff~mv2.png/_.png#originWidth=1380&originHeight=1380'
+    const name = 'Dalia Simons'
+    const parsedName = name.split(' ')
+    const media = parseImageUrl(image)
+    const phone = '123455664'
+    const lineItems = [{
+            catalogReference: {
+                appId: "43a876b9-bc53-4a45-84b6-0d09a8a98cc8",
+                catalogItemId: "1a2d7e83-4bef-31d5-09e1-3326ee271c09",
+                options: {
+                    options: {
+                        email: email,
+                    },
+                }
+            },
+            quantity: 1,
+            productName: {
+                original: "custom Image r",
+                translated: "custom Image"
+            },
+            itemType: {
+              preset: 'DIGITAL'
+            },
+            media: image,
+            paymentOption: 'FULL_PAYMENT_ONLINE',
+            quantityAvailable: 1,
+            digitalFile: {
+                id: media.id,
+                fileName: media.fileName,
+                fileType: 'SECURE_PICTURE'
+            }
+        }]
+
+
+
+    const checkoutInfo = {
+        channelType: 'WEB',
+        shippingInfo: {
+        shippingDestination: {
+          contactDetails: {
+            firstName: parsedName[0],
+            lastName: parsedName[1],
+            phone
+          }
+        },
+      },
+      billingInfo: {
+        contactDetails: {
+            firstName: parsedName[0],
+            lastName: parsedName[1],
+            phone
+        }
+      },
+        buyerInfo: {
+            email,
+        },
+        lineItems
+    }
+    const request = {checkoutInfo, lineItems, channelType: 'WEB',
+}
+
+    try {
+        const result = await checkout.createCheckout(request);
+        console.log(`checkout retrieved: ${JSON.stringify(result)}`)
+        console.log(`calling createOrder`)
+        const createOrderResponse = await checkout.createOrder(result._id)
+        console.log(`createOrder finsihed with response: ${JSON.stringify(createOrderResponse)}`)
+
+        return result.buyerInfo.contactId;
+    } catch (err) {
+        console.log(`got err: ${err}`)
+        return {}
+    }
+
+}
+
+export async function getDownloadLinkForImage(imageUrl) {
+console.log(`calling fileInfo with imageUrl: ${imageUrl}`)
+  const fileInfo = await mediaManager.getFileInfo(imageUrl)  
+  console.log(`got fileInfo : ${JSON.stringify(fileInfo)}`)
+
+  console.log(`calling getDownloadUrl with imageUrl: ${fileInfo.fileUrl}`)
+  const myFileDownloadUrl = await mediaManager.getDownloadUrl(imageUrl);  
+  return myFileDownloadUrl;
+}

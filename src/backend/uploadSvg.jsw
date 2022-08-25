@@ -1,0 +1,74 @@
+import { mediaManager } from 'wix-media-backend';
+import { svg2png } from 'backend/convertApi'
+import wixData from 'wix-data';
+const avatarBlockCollection = '@karenatwix/avatargenerator/FinalAvatars'
+
+
+export async function uploadSvg(svg, fileName) {
+    let res = await mediaManager.upload(
+        "/myUploadFolder/Avatar",
+        svg,
+        fileName + ".svg", {
+            "mediaOptions": {
+                "mimeType": "image/svg+xml",
+                "mediaType": 'shape'
+            },
+            "metadataOptions": {
+                "isPrivate": false,
+                "isVisitorUpload": true,
+                "context": {
+                    "someKey1": "someValue1"
+                }
+            }
+        }
+    )
+    let svgUrl = res.fileUrl
+    let svgName = res.fileName
+    let sourceUrl = await getPublicSvgUrl(svgUrl)
+
+    let buffer = await svg2png(sourceUrl, svgName)
+    let pngUrl = await uploadImage(buffer, svgName)
+    return pngUrl
+}
+
+async function uploadImage(buffer, pngName) {
+    let res = await mediaManager.upload(
+        "/myUploadFolder/Avatar",
+        buffer,
+        pngName + ".png", {
+            "mediaOptions": {
+                "mimeType": "image/png",
+                "mediaType": "image"
+            },
+            "metadataOptions": {
+                "isPrivate": false,
+                "isVisitorUpload": false,
+                "context": {
+                    "someKey1": "someValue1",
+
+                }
+            }
+        }
+    );
+    return res.fileUrl;
+}
+
+function getPublicSvgUrl(src) {
+    let fullLink = "https://static.wixstatic.com/shapes/" + src.split("/")[3]
+    return fullLink
+}
+
+
+export async function getAvatarImage(avatarId) {
+    let avatarImage = await wixData.query(avatarBlockCollection)
+        .eq('_id', avatarId)
+        .find()
+  	let avatarItem = await avatarImage.items
+	let imgSrc = avatarItem[0].png
+    return imgSrc
+}
+
+export async function myGetDownloadUrl(fileUrl) {
+    const myFileDownloadUrl = await mediaManager.getDownloadUrl(fileUrl);
+    return myFileDownloadUrl;
+}
